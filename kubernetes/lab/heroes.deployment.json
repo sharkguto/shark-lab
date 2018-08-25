@@ -1,0 +1,75 @@
+{
+    "apiVersion": "extensions/v1beta1",
+    "kind": "Deployment",
+    "metadata": {
+        "name": "api-heroes-deployment",
+        "labels": {
+            "version": "v1",
+            "app": "api-heroes"
+        }
+    },
+    "spec": {
+        "strategy": {
+            "type": "RollingUpdate",
+            "rollingUpdate": {
+                "maxSurge": 2,
+                "maxUnavailable": 2
+            }
+        },
+        "minReadySeconds": 5,
+        "replicas": 5,
+        "selector": {
+            "matchLabels": {
+                "version": "v1",
+                "app": "api-heroes"
+            }
+        },
+        "template": {
+            "metadata": {
+                "labels": {
+                    "app": "api-heroes",
+                    "version": "v1"
+                }
+            },
+            "spec": {
+                "imagePullSecrets": [
+                    {
+                        "name": "regcred"
+                    }
+                ],
+                "containers": [
+                    {
+                        "name": "api-heroes",
+                        "image": "gmftechdock.azurecr.io/api-heroes:v1",
+                        "imagePullPolicy": "Always",
+                        "ports": [
+                            {
+                                "containerPort": 5000
+                            }
+                        ],
+                        "env": [
+                            {
+                                "name": "MONGO_URL",
+                                "value": "mongodb-svc"
+                            },
+                            {
+                                "name": "PORT",
+                                "value": "5000"
+                            }
+                        ],
+                        "resources": {
+                            "requests": {
+                                "memory": "54Mi",
+                                "cpu": "200m"
+                            },
+                            "limits": {
+                                "memory": "100Mi",
+                                "cpu": "600m"
+                            }
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}

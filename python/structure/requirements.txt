@@ -1,0 +1,5 @@
+git+https://github.com/channelcat/sanic.git
+asyncpg
+scrapy
+pytest
+pytest-cov

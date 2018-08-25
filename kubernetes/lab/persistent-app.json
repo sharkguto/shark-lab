@@ -1,0 +1,52 @@
+{
+    "apiVersion": "extensions/v1beta1",
+    "kind": "Deployment",
+    "metadata": {
+        "name": "upload-app-deployment",
+        "labels": {
+            "app": "upload-app"
+        }
+    },
+    "spec": {
+        "replicas": 1,
+        "selector": {
+            "matchLabels": {
+                "app": "upload-app"
+            }
+        },
+        "template": {
+            "metadata": {
+                "labels": {
+                    "app": "upload-app"
+                }
+            },
+            "spec": {
+                "containers": [
+                    {
+                        "name": "upload-app",
+                        "image": "erickwendel/k8s-upload-example-nodejs",
+                        "ports": [
+                            {
+                                "containerPort": 3000
+                            }
+                        ],
+                        "volumeMounts": [
+                            {
+                                "name": "uploads",
+                                "mountPath": "/src/uploads"
+                            }
+                        ]
+                    }
+                ],
+                "volumes": [
+                    {
+                        "name": "uploads",
+                        "persistentVolumeClaim": {
+                            "claimName": "uploads-pvc"
+                        }
+                    }
+                ]
+            }
+        }
+    }
+}

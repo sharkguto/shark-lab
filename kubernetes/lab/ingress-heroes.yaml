@@ -1,0 +1,21 @@
+kind: Ingress
+apiVersion: extensions/v1beta1
+metadata:
+  name: ingress-heroes
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        backend:
+          serviceName: api-heroes-svc
+          servicePort: 5000
+  - host: mysite.com
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: nginx
+          servicePort: 80
+      
+    

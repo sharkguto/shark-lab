@@ -1,0 +1,56 @@
+{
+    "apiVersion": "extensions/v1beta1",
+    "kind": "ReplicaSet",
+    "metadata": {
+        "name": "api-heroes",
+        "labels": {
+            "version": "v1",
+            "app": "api-heroes"
+        }
+    },
+    "spec": {
+        "replicas": 3,
+        "selector": {
+            "matchLabels": {
+                "version": "v1",
+                "app": "api-heroes"
+            }
+        },
+        "template": {
+            "metadata": {
+                "labels": {
+                    "app": "api-heroes",
+                    "version": "v1"
+                }
+            },
+            "spec": {
+                "imagePullSecrets": [
+                    {
+                        "name": "regcred"
+                    }
+                ],
+                "containers": [
+                    {
+                        "name": "api-heroes",
+                        "image": "gmftechdock.azurecr.io/api-heroes:v1",
+                        "ports": [
+                            {
+                                "containerPort": 5000
+                            }
+                        ],
+                        "env": [
+                            {
+                                "name": "MONGO_URL",
+                                "value": "mongodb-svc"
+                            },
+                            {
+                                "name": "PORT",
+                                "value": "5000"
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    }
+}

@@ -1,0 +1,18 @@
+{
+    "apiVersion": "extentsions/v1beta1",
+    "kind": "Ingress",
+    "metadata": {
+        "name": "heroes-ingress"
+    },
+    "spec": {
+        "selector": {
+            "app": "api-heroes"
+        },
+        "type": "LoadBalancer",
+        "ports": [
+            {
+                "port": 5000
+            }
+        ]
+    }
+}

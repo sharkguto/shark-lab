@@ -1,0 +1,99 @@
+
+
+service: python3-poc-step-func
+
+package:
+  exclude:
+    - test_*
+    - devops/**
+    - test_files/**
+    - tests
+    - node_modules/**
+
+provider:
+  name: aws
+  runtime: python3.6
+  tags:
+    TAG_PROJECT: test-step-functions
+
+functions:
+  hello_check:
+    handler: handler2.hello_check
+    environment:
+      statemachine_arn: ${self:resources.Outputs.MyStateMachine.Value}
+  hello_receiver:
+    handler: handler2.hello_receiver
+    environment:
+      statemachine_arn: ${self:resources.Outputs.MyStateMachine.Value}
+  hello:
+    handler: handler2.hello
+    environment:
+      statemachine_arn: ${self:resources.Outputs.MyStateMachine.Value}
+  hell0:
+    handler: handler2.hello_0
+    environment:
+      statemachine_arn: ${self:resources.Outputs.MyStateMachine.Value}
+  hell1:
+    handler: handler2.hello_1
+    environment:
+      statemachine_arn: ${self:resources.Outputs.MyStateMachine.Value}
+  hell2:
+    handler: handler2.hello_2
+    environment:
+      statemachine_arn: ${self:resources.Outputs.MyStateMachine.Value}
+
+stepFunctions:
+  stateMachines:
+    hellostepfunc:
+      name: myStateMachine
+      definition:
+        Comment: "An example of the Amazon States Language using wait states"
+        StartAt: FirstState
+        States:
+          FirstState:
+            Type: Task
+            Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${opt:stage}-hello_check
+            Next: ChoiceState
+          ChoiceState:
+            Type: Choice
+            Choices:
+            - Variable: "$.value"
+              NumericEquals: 1
+              Next: FirstMatchState
+            - Variable: "$.value"
+              NumericEquals: 2
+              Next: SecondMatchState
+            - Variable: "$.value"
+              NumericEquals: 0
+              Next: ZeroMatchState
+            Default: ZeroMatchState
+          ZeroMatchState:
+            Type: Task
+            Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${opt:stage}-hell0
+            Next: FinalState
+            Catch:
+            - ErrorEquals:
+              - Exception
+              Next: FirstState
+          FirstMatchState:
+            Type: Task
+            Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${opt:stage}-hell1
+            Next: FinalState
+          SecondMatchState:
+            Type: Task
+            Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${opt:stage}-hell2
+            Next: FinalState
+          FinalState:
+            Type: Task
+            Resource: arn:aws:lambda:#{AWS::Region}:#{AWS::AccountId}:function:${self:service}-${opt:stage}-hello
+            End: true
+resources:
+  Outputs:
+    MyStateMachine:
+      Description: The ARN of the example state machine
+      Value:
+        Ref: MyStateMachine
+
+plugins:
+  - serverless-step-functions
+  - serverless-pseudo-parameters
