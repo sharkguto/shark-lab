@@ -6,7 +6,7 @@ from asyncpg import create_pool
 # db connection config
 
 DB_CONFIG = {
-    "host": "127.0.0.1",
+    "host": "db",
     "user": "gustavo",
     "password": "test",
     "port": "5432",

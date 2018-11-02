@@ -9,10 +9,10 @@ RUN pip3 install --no-cache-dir -r requirements.txt
 
 COPY dercypy ./dercypy
 
-COPY static ./static
+COPY ./dercypy/static static 
 
 EXPOSE 5000
 
-ENTRYPOINT ["python3"]
+#ENTRYPOINT ["python3"]
 
-CMD ["-m", "dercypy"]
+ENTRYPOINT ["python3","-m", "dercypy"]

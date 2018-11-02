@@ -22,9 +22,9 @@ services:
     # image: psql-custom:latest
     image: postgres:9.6-alpine
     ports:
-      - "15432:5432"
+      - "5432:5432"
     volumes:
-      - ./static/data.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./dercypy/static/data.sql:/docker-entrypoint-initdb.d/init.sql
     environment:
       POSTGRES_USER: "gustavo"
       POSTGRES_PASSWORD: "test"
