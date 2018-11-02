@@ -131,28 +131,38 @@ sudo pip3 install python-tds pymssql ujson
 ```json
 {
     "python.autoComplete.addBrackets": true,
-    "python.pythonPath": "python3",
-    "sonarlint.ls.javaHome": "/usr/lib/jvm/java-8-openjdk-amd64/",
-    "sonarlint.ls.vmargs": "-Xmx1024m",
-    "pydocs.style": "google",
+    "python.pythonPath": "python3.6",
     "git.autofetch": true,
-    "templateGenerator.fields.author": "Gustavo M Freitas",
+    "templateGenerator.fields.author": "Gustavo F",
     "templateGenerator.fields.email": "gustavo@gmf-tech.com",
     "templateGenerator.fields.link": "https://github.com/sharkguto",
     "git.enableSmartCommit": true,
     "python.linting.flake8Enabled": true,
-    "python.linting.pylintEnabled": true,
-    "window.zoomLevel": 0,
-    "python.unitTest.promptToConfigure": false,
-    "python.unitTest.pyTestEnabled": false,
-    "editor.codeLens": true,
-    "workbench.editor.labelFormat": "default",
+    "python.linting.pylintEnabled": false,
+    "window.zoomLevel": 1,
+    "rust-client.updateOnStartup": true,
     "workbench.iconTheme": "vscode-icons",
-    "tidyMarkdown.disableFormatter": false,
-    "python.formatting.autopep8Path": "autopep8",
-    "python.formatting.provider": "autopep8",
-    "python.linting.pep8Enabled": true,
-    "explorer.confirmDelete": false
+    "python.formatting.blackPath": "black",
+    "python.formatting.provider": "black",
+    "vsicons.dontShowNewVersionMessage": true,
+    "rust.rustup": {
+        "toolchain": "stable-x86_64-unknown-linux-gnu",
+        "nightlyToolchain": "nightly-x86_64-unknown-linux-gnu"
+    },
+    "rust.mode": "rls",
+    "files.watcherExclude": {
+        "**/.git/objects/**": true,
+        "**/.git/subtree-cache/**": true,
+        "**/node_modules/*/**": true
+    },
+    "rust.rls": {
+        "useRustfmt": true
+    },
+    "git.confirmSync": false,
+    "lldb.executable": "lldb-6.0",
+    "[markdown]": {
+        "editor.quickSuggestions": true
+    }
 }
 ```
 
@@ -179,6 +189,8 @@ code --install-extension DotJoshJohnson.xml
 code --install-extension codezombiech.gitignore
 code --install-extension eamodio.gitlens
 code --install-extension DengSir.template-generator-vscode
+code --install-extension mubaidr.vuejs-extension-pack
+code --install-extension hbenl.vscode-firefox-debug
 ```
 
 ## install sonar by command line, it will install jars dependences automatically
@@ -217,6 +229,15 @@ machine:~/github/how-to$ cat ~/.vscode/templates/\{__name__.python\}.py
 # @Link   : {__link__}
 # @Date   : {__date__}
 machine:~/github/how-to$
+```
+
+```bash
+gustavo@notebook ~/github-projects/shark-lab $ cat ~/.vscode/templates/\{__name__.md\}.md
+# {__name__}.md
+[comment]: <> (@Author : {__author__} ({__email__}))
+[comment]: <> (@Link   : {__link__})
+[comment]: <> (@Date   : {__date__})
+gustavo@notebook ~/github-projects/shark-lab $
 ```
 
 ![peek + template generator](../images/using_template.gif)
