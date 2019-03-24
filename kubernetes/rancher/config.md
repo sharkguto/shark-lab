@@ -18,6 +18,8 @@ Install the following requirements
 2. snap
 3. A linux machine :)
 
+##
+
 ## install microk8s
 
 install and run microk8s
@@ -75,6 +77,35 @@ kube-system   kube-dns-67b548dcff-xp999   3/3       Running   0          7m6s
 gustavo@notebook ~/github-projects/shark-lab $
 ```
 
+## install minikube with virtualbox
+
+```bash
+sudo apt-get install virtualbox virtualbox-ext-pack
+
+curl -Lo minikube https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+chmod +x minikube
+sudo mv -v minikube /usr/local/bin
+```
+
+check if it is running fine
+
+```bash
+gustavo@notebook ~/github-projects/shark-lab/kubernetes/rancher $ minikube startStarting local Kubernetes v1.10.0 cluster...Starting VM...Downloading Minikube ISO
+ 170.78 MB / 170.78 MB [=================================] 100.00% 0sGetting VM IP address...
+Moving files into cluster...Downloading kubeadm v1.10.0
+Downloading kubelet v1.10.0
+Finished Downloading kubelet v1.10.0
+Finished Downloading kubeadm v1.10.0
+Setting up certs...Connecting to cluster...
+Setting up kubeconfig...
+Starting cluster components...Kubectl is now configured to use the cluster.
+Loading cached images from config file.
+gustavo@notebook ~/github-projects/shark-lab/kubernetes/rancher $ kubectl get node
+NAME       STATUS    ROLES     AGE       VERSION
+minikube   Ready     master    26m       v1.10.0
+gustavo@notebook ~/github-projects/shark-lab/kubernetes/rancher $
+```
+
 ## Rancher installation
 
 lets make docker run without sudo
@@ -110,6 +141,10 @@ docker run -d --restart=unless-stopped \
 it could be take a while to load, if you want to see the logs, issue the following command:
 
 ```bash
+docker logs -f $(docker ps | grep -i rancher | head -n 1 | awk '{print $1}')
+
+# or to access rancher pod
+
 docker exec -it $(docker ps | grep -i rancher | head -n 1 | awk '{print $1}') bash
 ```
 
@@ -131,6 +166,13 @@ Lets import our microk8s cluster into rancher administration
 export MICROK8S_ADMIN=$(cat ~/.kube/config | grep username: | sed -e 's/.*username:\s//g')
 kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-admin --user $MICROK8S_ADMIN
 curl --insecure -sfL https://localhost/v3/import/dgmvm8lwt6k69lvttcts5pkms6w64rlcfqz9qzqnhzwsz46mlrs9sm.yaml | kubectl apply -f -
+namespace/cattle-system created
+serviceaccount/cattle created
+clusterrolebinding.rbac.authorization.k8s.io/cattle-admin-binding configured
+secret/cattle-credentials-28dcf8d created
+clusterrole.rbac.authorization.k8s.io/cattle-admin configured
+deployment.extensions/cattle-cluster-agent created
+daemonset.extensions/cattle-node-agent created
 ```
 
 ## troubleshooting
@@ -140,4 +182,6 @@ microk8s.inspect
 
 WARNING:  IPtables FORWARD policy is DROP. Consider enabling traffic forwarding with: sudo iptables -P FORWARD ACCEPT
 Building the report tarbal
+
+microk8s.kubectl proxy --accept-hosts=.* --address=0.0.0.0 &
 ```
