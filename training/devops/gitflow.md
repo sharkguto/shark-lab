@@ -6,9 +6,13 @@
 
 ## Overview
 
-I do not like the idea to use git branches to generate artifact (like git-flow). My experience with that , always merge will be the villian, all environments will be a mess, and of course, it will generate reccurent bugs, downtime in application and profit loss... The way what I found to solve this is, to standardize the work, according to the delivery of the activities, at the code level.
+I do not like the idea to use git branches to generate artifact (like git-flow). My experience with that , always merge will be the villain, all environments will be a mess, and of course, it will generate recurrent bugs, downtime in application and profit loss… The way what I found to solve this is, to standardize the work, according to the delivery of the activities, at the code level.
 
 As I explained before ([DevOps Journey - Part 1: Choose our weapons](weapons.md)), we will use the Basic Board View, to make the things simple as possible, following the KISS principle, "_keep it simple, stupid_". :smile:
+
+## Activities scenario
+
+![tasks](./images/screenshot_008.jpg)
 
 ## Rules
 
@@ -23,10 +27,6 @@ As I explained before ([DevOps Journey - Part 1: Choose our weapons](weapons.md)
 
 4. When developer open the Pull Request, it should be link all activity tasks on it, for traceability purpose. And before open it , should have merge master into the branch.
 5. Any branch opened should be create based on `master` branch. If not, should be reject!
-
-## Activities scenario
-
-![tasks](./images/screenshot_008.jpg)
 
 ## Hands-on
 
